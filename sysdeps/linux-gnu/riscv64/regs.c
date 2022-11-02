@@ -19,6 +19,8 @@
  */
 
 #include <sys/uio.h>
+#include <stddef.h>
+#include <stdio.h>
 #include "proc.h"
 #include "ptrace.h"
 

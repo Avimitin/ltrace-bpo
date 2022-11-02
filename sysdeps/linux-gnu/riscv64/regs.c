@@ -24,7 +24,7 @@
 
 /* read tracee general registers */
 long
-riscv64_read_gregs(struct process *proc, struct user_regs_struct *regs)
+riscv64_read_gregs(struct Process *proc, struct user_regs_struct *regs)
 {
     struct iovec data = {regs, sizeof(*regs)};
     if (ptrace(PTRACE_GETREGSET, proc->pid, NT_PRSTATUS, &data) == -1) {
@@ -35,7 +35,7 @@ riscv64_read_gregs(struct process *proc, struct user_regs_struct *regs)
 }
 
 void *
-get_instruction_pointer(struct process *proc)
+get_instruction_pointer(struct Process *proc)
 {
     struct user_regs_struct regs;
     /* RISC-V does not support PTRACE_PEEKUSER, PTRACE_GETREGS */
@@ -45,7 +45,7 @@ get_instruction_pointer(struct process *proc)
 }
 
 void
-set_instruction_pointer(struct process *proc, void *addr)
+set_instruction_pointer(struct Process *proc, void *addr)
 {
     struct user_regs_struct regs;
     if (riscv64_read_gregs(proc, &regs) == -1)
@@ -56,7 +56,7 @@ set_instruction_pointer(struct process *proc, void *addr)
 }
 
 void *
-get_stack_pointer(struct process *proc)
+get_stack_pointer(struct Process *proc)
 {
     struct user_regs_struct regs;
     if (riscv64_read_gregs(proc, &regs) == -1)
@@ -65,7 +65,7 @@ get_stack_pointer(struct process *proc)
 }
 
 void *
-get_return_addr(struct process *proc, void *stack_pointer)
+get_return_addr(struct Process *proc, void *stack_pointer)
 {
     struct user_regs_struct regs;
     if (riscv64_read_gregs(proc, &regs) == -1)

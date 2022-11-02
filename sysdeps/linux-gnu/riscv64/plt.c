@@ -51,7 +51,7 @@ arch_elf_add_plt_entry(struct Process *proc, struct ltelf *lte,
     if (GELF_R_TYPE(rela->r_info) == R_RISCV_IRELATIVE)
         return linux_elf_add_plt_entry_irelative(proc, lte, rela, i, ret);
 
-    return PLT_DEFAULT;
+    return plt_default;
 }
 
 int

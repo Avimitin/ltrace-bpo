@@ -64,7 +64,7 @@ struct fetch_context {
 };
 
 static int
-fetch_register_banks(struct process *proc, struct fetch_context *ctx)
+fetch_register_banks(struct Process *proc, struct fetch_context *ctx)
 {
     struct iovec data = {&ctx->gregs, sizeof(struct user_regs_struct)};
     if (ptrace(PTRACE_GETREGSET, proc->pid, NT_PRSTATUS, &data) == -1) {
@@ -127,7 +127,7 @@ icc_class(struct fetch_context *ctx, size_t sz)
  * not break the system??
  */
 static enum fetch_class
-get_fetch_class(struct fetch_context *ctx, struct process *proc,
+get_fetch_class(struct fetch_context *ctx, struct Process *proc,
                 struct arg_type_info *info)
 {
     size_t sz = type_sizeof(proc, info);
@@ -224,7 +224,7 @@ get_fetch_class(struct fetch_context *ctx, struct process *proc,
 }
 
 static inline unsigned long
-fetch_stack_word(struct fetch_context *ctx, struct process *proc)
+fetch_stack_word(struct fetch_context *ctx, struct Process *proc)
 {
     long v = ptrace(PTRACE_PEEKDATA, proc->pid, ctx->sp, 0);
     if ((v == -1) && errno) {
@@ -237,7 +237,7 @@ fetch_stack_word(struct fetch_context *ctx, struct process *proc)
 
 /* Fetch value whose size no more than 128 bits */
 static int
-fetch_value(struct fetch_context *ctx, struct process *proc,
+fetch_value(struct fetch_context *ctx, struct Process *proc,
             struct value *valp, enum fetch_class c, size_t sz)
 {
     unsigned long *p = (unsigned long *)value_reserve(valp, align(sz, 8));
@@ -307,7 +307,7 @@ fetch_value(struct fetch_context *ctx, struct process *proc,
 
 /* value larger than 128bit is transferred to reference */
 static int
-fetch_larger(struct fetch_context *ctx, struct process *proc,
+fetch_larger(struct fetch_context *ctx, struct Process *proc,
         struct arg_type_info *info, struct value *valp)
 {
     value_init(valp, proc, NULL, info, 0);
@@ -321,7 +321,7 @@ fetch_larger(struct fetch_context *ctx, struct process *proc,
 }
 
 struct fetch_context *
-arch_fetch_arg_init(enum tof type, struct process *proc,
+arch_fetch_arg_init(enum tof type, struct Process *proc,
                     struct arg_type_info *ret_info)
 {
     struct fetch_context *ctx = malloc(sizeof(*ctx));
@@ -364,7 +364,7 @@ ERR_OUT:
 }
 
 struct fetch_context *
-arch_fetch_arg_clone(struct process *proc, struct fetch_context *ctx)
+arch_fetch_arg_clone(struct Process *proc, struct fetch_context *ctx)
 {
     struct fetch_context *clone = malloc(sizeof(*ctx));
     if (clone == NULL) {
@@ -378,7 +378,7 @@ arch_fetch_arg_clone(struct process *proc, struct fetch_context *ctx)
 
 int
 arch_fetch_retval(struct fetch_context *ctx, enum tof type,
-          struct process *proc, struct arg_type_info *info,
+          struct Process *proc, struct arg_type_info *info,
           struct value *valp)
 {
     if (fetch_register_banks(proc, ctx) == -1)
@@ -404,7 +404,7 @@ arch_fetch_retval(struct fetch_context *ctx, enum tof type,
 
 int
 arch_fetch_arg_next(struct fetch_context *ctx, enum tof type,
-            struct process *proc, struct arg_type_info *info,
+            struct Process *proc, struct arg_type_info *info,
             struct value *valp)
 {
     /* why we got ARGTYPE_ARRAY?? */

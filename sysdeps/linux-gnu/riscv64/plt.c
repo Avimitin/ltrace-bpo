@@ -19,6 +19,7 @@
  */
 
 #include <sys/uio.h>
+#include <stdio.h>
 #include <gelf.h>
 #include "ltrace-elf.h"
 #include "proc.h"

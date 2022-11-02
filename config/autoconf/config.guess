@@ -1124,6 +1124,9 @@ EOF
     RM*:SINIX-*:*:*)
 	echo mips-sni-sysv4
 	exit ;;
+    riscv32:Linux:*:* | riscv32be:Linux:*:* | riscv64:Linux:*:* | riscv64be:Linux:*:*)
+	echo ${UNAME_MACHINE}-unknown-linux-$LIBC
+	exit ;;
     *:SINIX-*:*:*)
 	if uname -p 2>/dev/null >/dev/null ; then
 		UNAME_MACHINE=`(uname -p) 2>/dev/null`

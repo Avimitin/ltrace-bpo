@@ -65,15 +65,3 @@ syscall_p(struct Process *proc, int status, int *sysnum)
     }
     return 0;
 }
-
-/* how to deal with this logic?? lr/sc atomic pairs?? */
-enum sw_singlestep_status arch_sw_singlestep(struct Process *proc,
-                         struct breakpoint *bp,
-                         int (*add_cb)(arch_addr_t addr,
-                           struct sw_singlestep_data *),
-                         struct sw_singlestep_data *data)
-{
-    if (!ptrace(PTRACE_SYSCALL, proc->pid, 0, 0))
-        return SWS_OK;
-    return SWS_FAIL;
-}

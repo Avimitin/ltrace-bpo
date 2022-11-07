@@ -19,6 +19,7 @@
  */
 
 #include <sys/uio.h>
+#include <stdio.h>
 #include <gelf.h>
 #include "ltrace-elf.h"
 #include "proc.h"
@@ -48,10 +49,7 @@ arch_elf_add_plt_entry(struct Process *proc, struct ltelf *lte,
                        const char *name, GElf_Rela *rela,
                        size_t i, struct library_symbol **ret)
 {
-    if (GELF_R_TYPE(rela->r_info) == R_RISCV_IRELATIVE)
-        return linux_elf_add_plt_entry_irelative(proc, lte, rela, i, ret);
-
-    return PLT_DEFAULT;
+    return plt_default;
 }
 
 int

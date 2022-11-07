@@ -38,13 +38,13 @@ arch_plt_sym_val(struct ltelf *lte, size_t ndx, GElf_Rela *rela)
 }
 
 void *
-sym2addr(struct process *proc, struct library_symbol *sym)
+sym2addr(struct Process *proc, struct library_symbol *sym)
 {
         return sym->enter_addr;
 }
 
 enum plt_status
-arch_elf_add_plt_entry(struct process *proc, struct ltelf *lte,
+arch_elf_add_plt_entry(struct Process *proc, struct ltelf *lte,
                        const char *name, GElf_Rela *rela,
                        size_t i, struct library_symbol **ret)
 {

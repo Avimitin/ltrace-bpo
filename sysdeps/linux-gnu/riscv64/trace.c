@@ -25,15 +25,15 @@
 #include "ptrace.h"
 
 extern long
-riscv64_read_gregs(struct process *proc, struct user_regs_struct *regs);
+riscv64_read_gregs(struct Process *proc, struct user_regs_struct *regs);
 
 void
-get_arch_dep(struct process *proc)
+get_arch_dep(struct Process *proc)
 {
 }
 
 int
-syscall_p(struct process *proc, int status, int *sysnum)
+syscall_p(struct Process *proc, int status, int *sysnum)
 {
     if (WIFSTOPPED(status)
             && WSTOPSIG(status) == (SIGTRAP | proc->tracesysgood)) {
@@ -67,7 +67,7 @@ syscall_p(struct process *proc, int status, int *sysnum)
 }
 
 /* how to deal with this logic?? lr/sc atomic pairs?? */
-enum sw_singlestep_status arch_sw_singlestep(struct process *proc,
+enum sw_singlestep_status arch_sw_singlestep(struct Process *proc,
                          struct breakpoint *bp,
                          int (*add_cb)(arch_addr_t addr,
                            struct sw_singlestep_data *),

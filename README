@@ -1,3 +1,12 @@
+This is a fork of ltrace 0.7.3, try to backport the latest RISC-V support
+into it.
+
+Current status:
+
+- Build pass
+- Test stuck
+----------------------------------------------------------------------
+
 This directory contains sources of ltrace.  See the file configure.ac
 to see what version this is.
 

@@ -65,3 +65,11 @@ syscall_p(struct Process *proc, int status, int *sysnum)
     }
     return 0;
 }
+
+int
+arch_atomic_singlestep(struct Process *proc, struct breakpoint *sbp,
+		       int (*add_cb)(void *addr, void *data),
+		       void *add_cb_data) {
+    if (!ptrace(PTRACE_SYSCALL, proc->pid, 0, 0)) return 0;
+    return 1;
+}
